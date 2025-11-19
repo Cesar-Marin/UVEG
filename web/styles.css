@@ -1,0 +1,70 @@
+:root {
+  --bg: #0f1115;
+  --card: #17191c;
+  --border: #2a2d33;
+  --text: #e9ecf1;
+  --muted: #9aa3af;
+  --accent: #4da3ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, Arial, sans-serif;
+  margin: 0;
+}
+
+.container {
+  width: min(900px, 92vw); /* width */
+  margin: 24px auto;       /* margin */
+  padding: 16px;           /* padding */
+}
+
+.section {
+  background: var(--card);               /* background */
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;                          /* padding */
+  margin: 16px 0;                         /* margin */
+}
+
+h1, h2 { margin: 0 0 12px; }
+
+.resaltado {
+  background: color-mix(in oklab, var(--accent) 20%, transparent);
+  color: var(--accent);                   /* color */
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.hero-img {
+  display: block;
+  width: 320px;   /* width */
+  height: 220px;  /* height */
+  margin: 12px 0;
+  border-radius: 10px;
+  background: #0b0d12;
+}
+
+ul { padding-left: 20px; color: var(--text); }
+
+table {
+  width: 100%;               /* width */
+  border-collapse: collapse;
+  background: #131722;       /* background */
+  color: var(--text);        /* color */
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;         /* padding */
+  text-align: left;
+}
+
+thead th { background: #0f1218; color: var(--muted); }
+
+#resumen {                    /* selector por id */
+  background: #10131a;       /* background */
+}
