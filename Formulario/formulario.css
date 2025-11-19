@@ -1,0 +1,141 @@
+:root {
+  --bg: #0f1115;
+  --card: #17191c;
+  --border: #2a2d33;
+  --text: #e9ecf1;
+  --muted: #9aa3af;
+  --accent: #4da3ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, Arial, sans-serif;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.container {
+  width: min(760px, 92vw);
+  margin: 32px auto;
+  padding: 8px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  font-size: 28px;
+  color: var(--text);
+}
+
+.form-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.group { margin-bottom: 14px; }
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  color: var(--text);
+  background: #12151c;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+textarea { resize: vertical; min-height: 120px; }
+
+input::placeholder,
+textarea::placeholder { color: #7d8896; }
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(77,163,255,.25);
+  background: #141923;
+}
+
+/* Checkboxes */
+.checkboxes {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  background: #151a24;
+}
+
+.checkboxes legend {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 0 6px;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 14px 0 0;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+/* Actions */
+.actions { margin-top: 10px; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #0b0f16;
+  border: 1px solid transparent;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .08s ease, filter .2s ease;
+}
+
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:active { transform: translateY(1px); }
+
+/* Icons */
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+/* ID selector usage */
+#registro { /* separa grupos ligeramente más */
+  display: block;
+}

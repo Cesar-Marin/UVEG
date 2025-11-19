@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registro de Usuarios</title>
+    <link rel="stylesheet" href="formulario.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <rect x="5" y="14" width="14" height="7" rx="3"></rect>
+        </svg>
+        Registrate 
+      </h1>
+
+      <form id="registro" class="form-card" action="#" method="post">
+        <div class="group">
+          <label for="nombre">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="7.5" r="3.5"></circle>
+              <rect x="6" y="12" width="12" height="8" rx="3"></rect>
+            </svg>
+            Nombre
+          </label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+        </div>
+
+        <div class="group">
+          <label for="apellido">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="7.5" r="3.5"></circle>
+              <rect x="6" y="12" width="12" height="8" rx="3"></rect>
+            </svg>
+            Apellido
+          </label>
+          <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" required />
+        </div>
+
+        <div class="group">
+          <label for="correo">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2.5" y="4.5" width="19" height="15" rx="2"></rect>
+              <path d="M3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            Correo Electrónico
+          </label>
+          <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required />
+        </div>
+
+        <div class="group">
+          <label for="password">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+              <rect x="8" y="6" width="8" height="6" rx="3"></rect>
+            </svg>
+            Contraseña
+          </label>
+          <input type="password" id="password" name="password" placeholder="********" required />
+        </div>
+
+        <div class="group">
+          <label for="descripcion">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <rect x="6" y="8" width="12" height="1.6"></rect>
+              <rect x="6" y="11" width="10" height="1.6"></rect>
+              <rect x="6" y="14" width="8" height="1.6"></rect>
+            </svg>
+            Descripción
+          </label>
+          <textarea id="descripcion" name="descripcion" rows="4" placeholder="Cuéntanos brevemente sobre ti..."></textarea>
+        </div>
+
+        <fieldset class="group checkboxes">
+          <legend>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="12,3 14.8,8.5 21,9.3 16.5,13.3 17.7,19.5 12,16.6 6.3,19.5 7.5,13.3 3,9.3 9.2,8.5"/>
+            </svg>
+            Intereses
+          </legend>
+          <label class="checkbox">
+            <input type="checkbox" name="intereses" value="Tecnología" />
+            <span>Tecnología</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="intereses" value="Arte" />
+            <span>Arte</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="intereses" value="Deporte" />
+            <span>Deporte</span>
+          </label>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="4,20 20,12 4,4 7,11 13,12 7,13"/>
+            </svg>
+            Registrarse
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

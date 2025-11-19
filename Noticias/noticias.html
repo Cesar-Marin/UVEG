@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Noticias</title>
+    <style>
+      :root {
+        --bg: #0f1115; --card:#17191c; --border:#2a2d33;
+        --text:#e9ecf1; --muted:#9aa3af; --accent:#4da3ff;
+      }
+      * { box-sizing: border-box; }
+      body { margin:0; font-family: system-ui, Arial, sans-serif; background:var(--bg); color:var(--text); }
+      header { background:#10131a; border-bottom:1px solid var(--border); }
+      .container { width:min(1000px, 94vw); margin:0 auto; padding:16px; }
+      .toolbar { display:flex; align-items:center; gap:10px; margin:10px 0 16px; flex-wrap:wrap; }
+      button { background:var(--accent); color:#0b0f16; border:1px solid transparent; padding:10px 14px; border-radius:10px; cursor:pointer; font-size:14px; }
+      button.secondary { background:#1f2530; color:var(--text); border:1px solid var(--border); }
+      button[disabled]{ opacity:.6; cursor:progress; }
+      #status { color:var(--muted); margin:6px 0 12px; min-height:1.2em; }
+      .news-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+      article.card { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; min-height:100%; }
+      .thumb { width:100%; height:160px; object-fit:cover; background:#0b0d12; }
+      .content { padding:12px; display:flex; flex-direction:column; gap:8px; }
+      .meta { font-size:12px; color:var(--muted); }
+      .title { margin:0; font-size:16px; }
+      .summary { margin:0; color:#cfd6e3; font-size:14px; }
+      .actions { margin-top:auto; padding:12px; }
+      .link { color:var(--accent); text-decoration:none; }
+      .link:hover { text-decoration:underline; }
+      .empty { color:var(--muted); text-align:center; padding:20px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Últimas noticias</h1>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="toolbar">
+        <button id="refresh">Refrescar noticias</button>
+        <button id="yesterday" class="secondary">Noticias de ayer</button>
+        <button id="featured" class="secondary">Destacadas</button>
+      </div>
+      <div id="status"></div>
+      <section id="news" class="news-grid" aria-live="polite"></section>
+    </main>
+
+    <script>
+      const BASE = "https://api.spaceflightnewsapi.net/v4/articles/";
+      const newsEl = document.getElementById("news");
+      const statusEl = document.getElementById("status");
+      const refreshBtn = document.getElementById("refresh");
+      const yesterdayBtn = document.getElementById("yesterday");
+      const featuredBtn = document.getElementById("featured");
+
+      function truncate(text, n=160) {
+        if (!text) return "";
+        return text.length > n ? text.slice(0, n - 1) + "…" : text;
+      }
+
+      function formatDate(iso) {
+        try {
+          return new Date(iso).toLocaleString("es-MX", {
+            year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit"
+          });
+        } catch { return ""; }
+      }
+
+      function renderNews(items) {
+        newsEl.innerHTML = "";
+        if (!items || !items.length) {
+          newsEl.innerHTML = `<div class="empty">No hay noticias disponibles por ahora.</div>`;
+          return;
+        }
+        const frag = document.createDocumentFragment();
+        items.forEach(a => {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <img class="thumb" alt="" src="${a.image_url || ""}" onerror="this.style.display='none'">
+            <div class="content">
+              <p class="meta">${a.news_site ? a.news_site + " • " : ""}${formatDate(a.published_at)}</p>
+              <h3 class="title">${a.title || "Sin título"}</h3>
+              <p class="summary">${truncate(a.summary || "", 200)}</p>
+            </div>
+            <div class="actions">
+              <a class="link" href="${a.url}" target="_blank" rel="noopener noreferrer">Leer más</a>
+            </div>
+          `;
+          frag.appendChild(card);
+        });
+        newsEl.appendChild(frag);
+      }
+
+      async function fetchNews(url) {
+        statusEl.textContent = "Cargando noticias…";
+        setButtonsDisabled(true);
+        try {
+          const res = await fetch(url, { headers: { Accept: "application/json" } });
+          if (!res.ok) throw new Error("Respuesta no válida: " + res.status);
+          const data = await res.json();
+          const items = data && (data.results || data) || [];
+          renderNews(items);
+          statusEl.textContent = items.length ? "" : "No se encontraron noticias.";
+        } catch (err) {
+          console.error(err);
+          statusEl.textContent = "Error al cargar noticias. Intenta nuevamente más tarde.";
+          newsEl.innerHTML = "";
+        } finally {
+          setButtonsDisabled(false);
+        }
+      }
+
+      function loadLatest() {
+        fetchNews(BASE + "?limit=8");
+      }
+
+      function loadYesterday() {
+        const d = new Date();
+        d.setDate(d.getDate()-1);
+        const day = d.toISOString().slice(0,10);
+        const url = `${BASE}?limit=8&published_at_gte=${day}T00:00:00Z&published_at_lt=${day}T23:59:59Z`;
+        fetchNews(url);
+      }
+
+      function loadFeatured() {
+        // La API soporta parámetro featured=true
+        fetchNews(BASE + "?featured=true&limit=8");
+      }
+
+      function setButtonsDisabled(state) {
+        [refreshBtn, yesterdayBtn, featuredBtn].forEach(b => b.disabled = state);
+      }
+
+      refreshBtn.addEventListener("click", loadLatest);
+      yesterdayBtn.addEventListener("click", loadYesterday);
+      featuredBtn.addEventListener("click", loadFeatured);
+      document.addEventListener("DOMContentLoaded", loadLatest);
+    </script>
+  </body>
+</html>
